@@ -23,7 +23,9 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            'q1 = my_package.q1:main',
+            'run_rotate2 = my_package.run_rotate2:main',
+            'creeper_pub = my_package.creeper_pub:main',
+            'creeper_sub = my_package.creeper_sub:main',
         ],
     },
 )
