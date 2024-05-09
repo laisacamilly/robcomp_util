@@ -2,6 +2,7 @@ from my_package.module_aruco import Aruco3d
 import cv2
 import numpy as np
 
+
 class DistanceEstimator(Aruco3d):
     def __init__(self):
         Aruco3d.__init__(self,
@@ -115,7 +116,7 @@ class DistanceEstimator(Aruco3d):
         creepers += self.find_creeper(bgr, "blue")
 
         if len(creepers) == 0 or len(results) == 0:
-            return bgr, {}
+            return bgr, []
 
         # 2. Desenvolva a função `match_aruco` para combinar os marcadores Aruco com os corpos dos creepers.
         bgr, matched_pairs = self.match_aruco(bgr, creepers, results)

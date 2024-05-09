@@ -45,8 +45,8 @@ class BaseNode(Node, DistanceEstimator): # Mude o nome da classe
             except:
                 pass
 
-        cv2.imshow("Imagem", bgr)
-        cv2.waitKey(1)
+        # cv2.imshow("Imagem", bgr)
+        # cv2.waitKey(1)
 
 
     def control(self):
