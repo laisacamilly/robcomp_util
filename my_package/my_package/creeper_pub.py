@@ -39,11 +39,13 @@ class BaseNode(Node, DistanceEstimator): # Mude o nome da classe
         bgr, self.ranked_arucos = self.run(cv_image)
 
         # convert tvec to tuple
-        for key in self.ranked_arucos:
-            try:
-                self.ranked_arucos[key] = tuple(self.ranked_arucos[key].tolist())
-            except:
-                pass
+        for i, creeper in enumerate(self.ranked_arucos):
+            for key in creeper:
+                try:
+                    self.ranked_arucos[i][key] = tuple(creeper[key].tolist())
+                except:
+                    pass
+        print(self.ranked_arucos)
 
         # cv2.imshow("Imagem", bgr)
         # cv2.waitKey(1)

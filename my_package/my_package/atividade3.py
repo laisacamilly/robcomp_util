@@ -127,7 +127,7 @@ class DistanceEstimator(Aruco3d):
         # 9. Utilize a função `max` para classificar os Arucos por distância.
         ranked_arucos = max(matched_pairs, key=lambda x: x['distancia'])
 
-        return bgr, ranked_arucos
+        return bgr, matched_pairs
     
 
 def rodar_webcam():
