@@ -6,6 +6,9 @@ class Odom(): # Mude o nome da classe
 
     def __init__(self):
         # Inicialização de variáveis
+        self.x = np.inf
+        self.y = np.inf
+        self.yaw = np.inf
         
         # Subscribers
         self.odom_sub = self.create_subscription(
