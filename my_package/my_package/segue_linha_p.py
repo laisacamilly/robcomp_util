@@ -38,6 +38,7 @@ class Seguidor(Node):
 
         self.threshold = 5
         self.kp = 0.005
+        self.velx = 0.5
 
         # Inicialização de variáveis
         self.twist = Twist()
@@ -84,7 +85,7 @@ class Seguidor(Node):
             self.twist.angular.z = -0.4
         else:
             self.calc_erro()
-            self.twist.linear.x = 0.5
+            self.twist.linear.x = self.velx
             self.twist.angular.z = self.rot
     
     def stop(self):
