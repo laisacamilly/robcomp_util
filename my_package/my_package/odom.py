@@ -8,7 +8,7 @@ class Odom(): # Mude o nome da classe
         # Inicialização de variáveis
         self.x = np.inf
         self.y = np.inf
-        self.yaw = np.inf
+        self.yaw = 0.0
         
         # Subscribers
         self.odom_sub = self.create_subscription(
