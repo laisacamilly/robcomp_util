@@ -33,6 +33,11 @@ class GoTo(Node, Odom): # Mude o nome da classe
         self.cmd_vel_pub = self.create_publisher(Twist, 'cmd_vel', 10)
 
     def get_angular_error(self):
+        if self.x == np.inf:
+            self.erro = np.inf
+            self.twist.angular.z = 0.
+            return
+
         x = self.point.x - self.x
         y = self.point.y - self.y
         theta = np.arctan2(y , x)

@@ -70,8 +70,8 @@ class Seguidor(Node):
 
             cv2.circle(cv_image, (self.cx, self.cy), 5, (0, 0, 255), -1)
 
-            cv2.imshow("cv_image", mask)
-            cv2.waitKey(1)
+            # cv2.imshow("cv_image", mask)
+            # cv2.waitKey(1)
         else:
             return -1
 
