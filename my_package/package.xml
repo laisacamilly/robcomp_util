@@ -10,6 +10,10 @@
   <depend>rclpy</depend>
   <depend>std_msgs</depend>
   <depend>geometry_msgs</depend>
+  <depend>robcomp_interfaces</depend> <!-- Adiciona a dependência para mensagens personalizadas -->
+  <depend>action_msgs</depend> <!-- Adiciona a dependência para mensagens de ação -->
+  <depend>rosidl_default_generators</depend> <!-- Adiciona a dependência para geração de código de ação -->
+  <depend>rosidl_default_runtime</depend> <!-- Adiciona a dependência para tempo de execução de ação -->
 
   <test_depend>ament_copyright</test_depend>
   <test_depend>ament_flake8</test_depend>

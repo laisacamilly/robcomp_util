@@ -26,6 +26,7 @@ setup(
             'run_rotate2 = my_package.run_rotate2:main',
             'creeper_pub = my_package.creeper_pub:main',
             'creeper_sub = my_package.creeper_sub:main',
+            'goto_action = my_package.goto_action:main',
         ],
     },
 )
