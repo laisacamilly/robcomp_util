@@ -6,9 +6,8 @@ class Odom(): # Mude o nome da classe
 
     def __init__(self):
         # Inicialização de variáveis
-        self.x = np.inf
-        self.y = np.inf
-        self.yaw = 0.0
+
+        print("Odom initialized")
         
         # Subscribers
         self.odom_sub = self.create_subscription(
@@ -54,4 +53,3 @@ class Odom(): # Mude o nome da classe
         self.roll, self.pitch, self.yaw = self.euler_from_quaternion(quaternion)
 
         self.yaw_2pi = (self.yaw + 2 * np.pi) % (2 * np.pi)
-

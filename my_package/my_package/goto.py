@@ -18,6 +18,7 @@ class GoTo(Node, Odom): # Mude o nome da classe
         self.threshold = np.pi/180
         self.kp_linear = 0.8
         self.kp_angular = 0.5
+        self.max_vel = 0.5
         self.point = point
 
         self.robot_state = 'center'
@@ -27,17 +28,12 @@ class GoTo(Node, Odom): # Mude o nome da classe
             'stop': self.stop
         }
 
-        self.timer = self.create_timer(0.1, self.control)
+        self.timer = self.create_timer(0.25, self.control)
 
         # Publishers
         self.cmd_vel_pub = self.create_publisher(Twist, 'cmd_vel', 10)
 
     def get_angular_error(self):
-        if self.x == np.inf:
-            self.erro = np.inf
-            self.twist.angular.z = 0.
-            return
-
         x = self.point.x - self.x
         y = self.point.y - self.y
         theta = np.arctan2(y , x)
@@ -59,7 +55,9 @@ class GoTo(Node, Odom): # Mude o nome da classe
         self.get_angular_error()
 
         if self.distance > 0.01:
-            self.twist.linear.x = self.distance * self.kp_linear
+            linear_x = self.distance * self.kp_linear
+            self.twist.linear.x = min(linear_x, self.max_vel)
+
         else:
             self.robot_state = 'stop'
     
