@@ -28,6 +28,7 @@ setup(
             'creeper_sub = my_package.creeper_sub:main',
             'goto_action = my_package.goto_action:main',
             'goto_client = my_package.goto_client:main',
+            'segue_linha_p_action = my_package.segue_linha_p_action:main',
         ],
     },
 )

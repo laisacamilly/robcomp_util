@@ -24,7 +24,7 @@ class GoToActionServer(Node, Odom):
             cancel_callback=self.cancel_callback)
 
         self._goal_handle = None
-        self._feedback_msg = GoToPoint.Feedback()
+        # self._feedback_msg = GoToPoint.Feedback()
         self._result_msg = GoToPoint.Result()
 
         self.twist = Twist()
@@ -54,6 +54,9 @@ class GoToActionServer(Node, Odom):
 
     def cancel_callback(self, goal_handle):
         self.get_logger().info('Received cancel request')
+        self._goal_handle = None
+        goal_handle.abort()
+        self.cmd_vel_pub.publish(Twist())
         return CancelResponse.ACCEPT
 
     def execute_callback(self, goal_handle):
@@ -104,9 +107,6 @@ class GoToActionServer(Node, Odom):
 
         if self._goal_handle is not None:
             self.state_machine[self.robot_state]()
-            self.cmd_vel_pub.publish(self.twist)
-        else:
-            self.twist = Twist()
             self.cmd_vel_pub.publish(self.twist)
 
 
