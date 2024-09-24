@@ -1,4 +1,5 @@
 from rclpy.qos import ReliabilityPolicy, QoSProfile
+from rclpy.qos import QoSProfile, ReliabilityPolicy, DurabilityPolicy, HistoryPolicy
 from nav_msgs.msg import Odometry
 import numpy as np
 
