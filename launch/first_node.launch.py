@@ -4,7 +4,7 @@ from launch_ros.actions import Node
 def generate_launch_description():
     return LaunchDescription([
         Node(
-            package='my_package',
+            package='robcomp_util',
             executable='quadrado',
             output='screen'),
     ],)

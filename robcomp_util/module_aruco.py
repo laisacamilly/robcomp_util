@@ -6,8 +6,8 @@ import os
 #definindo a classe Aruco3d
 class Aruco3d():
     def __init__(self,
-                 camera_matrix=None,
-                 camera_distortion=None
+                 camera_matrix='/home/borg/colcon_ws/src/robcomp-util/robcomp_util/config/cameraMatrix_realsense.txt',
+                 camera_distortion='/home/borg/colcon_ws/src/robcomp-util/robcomp_util/config/cameraDistortion_realsense.txt'
                  ):
             #Definindo a variavel ids para armazenar o Id do aruco detectado
             self.ids = None 

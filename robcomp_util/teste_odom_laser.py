@@ -14,15 +14,15 @@ class BaseControlNode(Node, Laser, Odom): # Mude o nome da classe
         Node.__init__(self,'base_control_node') # Mude o nome do nó
         Laser.__init__(self)
         Odom.__init__(self)
-        self.timer = self.create_timer(2, self.control)
+        self.timer = self.create_timer(0.25, self.control)
 
     
     def custom_laser(self):
-        print('Estou rodando aqui')
+        pass
 
     def control(self):
-        print(np.min(self.front))
-        print(self.x)
+        print('Min. Front:', np.min(self.front))
+        print('X: ', self.x)
         
             
 def main(args=None):

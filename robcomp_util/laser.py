@@ -4,6 +4,9 @@ import numpy as np
 
 class Laser(): # Mude o nome da classe
     def __init__(self):
+
+        print("Laser Inciado")
+
         # Inicialização de variáveis
         self.front = [0]
         self.openning = 5

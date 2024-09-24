@@ -2,7 +2,7 @@ from setuptools import setup
 import os
 from glob import glob
 
-package_name = 'my_package'
+package_name = 'robcomp_util'
 
 setup(
     name=package_name,
@@ -23,12 +23,7 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            'run_rotate2 = my_package.run_rotate2:main',
-            'creeper_pub = my_package.creeper_pub:main',
-            'creeper_sub = my_package.creeper_sub:main',
-            'goto_action = my_package.goto_action:main',
-            'goto_client = my_package.goto_client:main',
-            'segue_linha_p_action = my_package.segue_linha_p_action:main',
+            'teste_odom_laser = robcomp_util.teste_odom_laser:main',
         ],
     },
 )
