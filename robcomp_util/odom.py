@@ -10,11 +10,18 @@ class Odom(): # Mude o nome da classe
         print("Odom initialized")
         
         # Subscribers
+        qos_profile = QoSProfile(
+            reliability=ReliabilityPolicy.RELIABLE,
+            history=HistoryPolicy.KEEP_LAST,
+            depth=1,
+            durability=DurabilityPolicy.VOLATILE
+        )
+        # odom
         self.odom_sub = self.create_subscription(
             Odometry,
             '/odom',
             self.odom_callback,
-            QoSProfile(depth=10, reliability=ReliabilityPolicy.RELIABLE))
+            qos_profile)
 
     def euler_from_quaternion(self, quaternion : list):
             """
