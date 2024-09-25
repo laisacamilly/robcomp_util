@@ -1,6 +1,7 @@
 from rclpy.qos import ReliabilityPolicy, QoSProfile
 from sensor_msgs.msg import LaserScan
 import numpy as np
+import rclpy
 
 class Laser(): # Mude o nome da classe
     def __init__(self):
@@ -17,6 +18,8 @@ class Laser(): # Mude o nome da classe
             '/scan',
             self.laser_callback,
             QoSProfile(depth=10, reliability=ReliabilityPolicy.BEST_EFFORT))
+        
+        rclpy.spin_once(self, timeout_sec=1.0) # Executa uma vez para pegar a primeira leitura
 
     def custom_laser(self):
         pass

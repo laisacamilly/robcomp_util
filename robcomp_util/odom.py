@@ -2,6 +2,7 @@ from rclpy.qos import ReliabilityPolicy, QoSProfile
 from rclpy.qos import QoSProfile, ReliabilityPolicy, DurabilityPolicy, HistoryPolicy
 from nav_msgs.msg import Odometry
 import numpy as np
+import rclpy
 
 class Odom(): # Mude o nome da classe
 
@@ -23,6 +24,8 @@ class Odom(): # Mude o nome da classe
             '/odom',
             self.odom_callback,
             qos_profile)
+        
+        rclpy.spin_once(self, timeout_sec=1.0) # Executa uma vez para pegar a primeira leitura
 
     def euler_from_quaternion(self, quaternion : list):
             """
