@@ -24,6 +24,7 @@ setup(
     entry_points={
         'console_scripts': [
             'teste_odom_laser = robcomp_util.teste_odom_laser:main',
+            'creeper_pub = robcomp_util.creeper_pub:main',
         ],
     },
 )
