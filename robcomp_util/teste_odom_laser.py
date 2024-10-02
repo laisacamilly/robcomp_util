@@ -2,8 +2,8 @@ import rclpy
 from rclpy.node import Node
 from rclpy.qos import ReliabilityPolicy, QoSProfile
 from geometry_msgs.msg import Twist
-from my_package.laser import Laser
-from my_package.odom import Odom
+from robcomp_util.laser import Laser
+from robcomp_util.odom import Odom
 import numpy as np
 # Adicione aqui os imports necessários
 
