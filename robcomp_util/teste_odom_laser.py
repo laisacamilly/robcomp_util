@@ -14,6 +14,8 @@ class BaseControlNode(Node, Laser, Odom): # Mude o nome da classe
         Node.__init__(self,'base_control_node') # Mude o nome do nó
         Laser.__init__(self)
         Odom.__init__(self)
+
+        print(self.x)
         self.timer = self.create_timer(0.25, self.control)
 
     
