@@ -21,8 +21,8 @@ class ImageNode(Node, MobileNetDetector):
         super().__init__('robcomp_eh_legal_mobilenet_node')
         self.running = True
         self.mobilenet = MobileNetDetector(
-            args_prototxt = "/home/borg/colcon_ws/src/robcomp_util/robcomp_util/config/MobileNetSSD_deploy.prototxt.txt",
-            args_model = "/home/borg/colcon_ws/src/robcomp_util/robcomp_util/config/MobileNetSSD_deploy.caffemodel"
+            args_prototxt = "/home/borg/colcon_ws/src/robcomp-util/robcomp_util/config/MobileNetSSD_deploy.prototxt.txt",
+            args_model = "/home/borg/colcon_ws/src/robcomp-util/robcomp_util/config/MobileNetSSD_deploy.caffemodel"
         )
 
         # Subscribers
