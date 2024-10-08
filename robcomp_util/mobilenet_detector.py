@@ -7,7 +7,7 @@ from cv_bridge import CvBridge
 from rclpy.qos import ReliabilityPolicy, QoSProfile
 from std_msgs.msg import String
 import cv2
-from module_net import MobileNetDetector
+from robcomp_util.module_net import MobileNetDetector
 from robcomp_interfaces.msg import DetectionArray, Detection
 
 """
