@@ -12,8 +12,8 @@ class MobileNetDetector():
     """
     def __init__(self,
                  CONFIDENCE = 0.7,
-                 args_prototxt = "/home/borg/colcon_ws/src/robcomp-util/robcomp_util/config/MobileNetSSD_deploy.caffemodel",
-                 args_model = "/home/borg/colcon_ws/src/robcomp-util/robcomp_util/config/MobileNetSSD_deploy.prototxt.txt"
+                 args_prototxt = "/home/borg/colcon_ws/src/robcomp-util/robcomp_util/config/MobileNetSSD_deploy.prototxt.txt"
+                 args_model = "/home/borg/colcon_ws/src/robcomp-util/robcomp_util/config/MobileNetSSD_deploy.caffemodel",
                  ):
         self.CLASSES = ["background", "aeroplane", "bicycle", "bird", "boat", "bottle", "bus", "car", "cat", "chair", "cow", "diningtable", "dog", "horse", "motorbike", "person", "pottedplant", "sheep", "sofa", "train", "tvmonitor"]
         self.CONFIDENCE = CONFIDENCE
