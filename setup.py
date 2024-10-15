@@ -25,6 +25,7 @@ setup(
         'console_scripts': [
             'teste_odom_laser = robcomp_util.teste_odom_laser:main',
             'mobilenet_detector = robcomp_util.mobilenet_detector:main',
+            'segue_linha = robcomp_util.segue_linha:main',
         ],
     },
 )
