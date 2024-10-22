@@ -7,10 +7,6 @@ import rclpy
 class Odom(): # Mude o nome da classe
 
     def __init__(self):
-        # Inicialização de variáveis
-
-        print("Odom initialized")
-        
         # Subscribers
         qos_profile = QoSProfile(
             reliability=ReliabilityPolicy.RELIABLE,
@@ -25,7 +21,12 @@ class Odom(): # Mude o nome da classe
             self.odom_callback,
             qos_profile)
         
-        rclpy.spin_once(self, timeout_sec=1.0) # Executa uma vez para pegar a primeira leitura
+        self.odom = False
+        while not self.odom:
+            rclpy.spin_once(self, timeout_sec=1.0)
+            print("odom: retrying")
+
+        print("Odom Inciado")
 
     def euler_from_quaternion(self, quaternion : list):
             """
@@ -64,3 +65,5 @@ class Odom(): # Mude o nome da classe
         self.roll, self.pitch, self.yaw = self.euler_from_quaternion(quaternion)
 
         self.yaw_2pi = (self.yaw + 2 * np.pi) % (2 * np.pi)
+
+        self.odom = True

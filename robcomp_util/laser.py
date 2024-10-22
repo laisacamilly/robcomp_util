@@ -6,7 +6,6 @@ import rclpy
 class Laser(): # Mude o nome da classe
     def __init__(self):
 
-        print("Laser Inciado")
 
         # Inicialização de variáveis
         self.front = [0]
@@ -19,7 +18,12 @@ class Laser(): # Mude o nome da classe
             self.laser_callback,
             QoSProfile(depth=10, reliability=ReliabilityPolicy.BEST_EFFORT))
         
-        rclpy.spin_once(self, timeout_sec=1.0) # Executa uma vez para pegar a primeira leitura
+        self.laser = False
+        while not self.laser:
+            rclpy.spin_once(self, timeout_sec=1.0)
+            print("laser: retrying")
+        
+        print("Laser Inciado")
 
     def custom_laser(self):
         pass
@@ -36,5 +40,7 @@ class Laser(): # Mude o nome da classe
         self.back = self.laser_msg[180-self.openning:180+self.openning]
 
         self.custom_laser()
+
+        self.laser = True
 
 
