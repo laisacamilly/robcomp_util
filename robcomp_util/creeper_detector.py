@@ -132,7 +132,7 @@ class CreeperDetector(Aruco3d):
             matched_pairs.append({
                 'body_center' : creeper[0],
                 'color' : creeper[1],
-                'id': 0,
+                'id': [0],
             })
 
         return bgr, matched_pairs
