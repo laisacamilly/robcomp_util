@@ -115,15 +115,18 @@ class CreeperDetector(Aruco3d):
         creepers += self.find_creeper(bgr, "green")
         creepers += self.find_creeper(bgr, "blue")
 
-        if len(creepers) == 0 or len(results) == 0: # Verifica se não há creepers ou arucos na imagem.
+        if len(creepers) == 0: # Verifica se não há creepers ou arucos na imagem.
             return bgr, []
+        
+        matched_pairs = []
 
-        # 3. Desenvolva a função `match_aruco` para combinar os marcadores Aruco com os corpos dos creepers.
-        bgr, matched_pairs = self.match_aruco(bgr, creepers, results)
+        if len(results) != 0
+            # 3. Desenvolva a função `match_aruco` para combinar os marcadores Aruco com os corpos dos creepers.
+            bgr, matched_pairs = self.match_aruco(bgr, creepers, results)
 
-        # 4. Desenha os marcadores Aruco na imagem utilizando a função `drawAruco`.
-        for result in matched_pairs:
-            bgr = self.drawAruco(bgr, result)
+            # 4. Desenha os marcadores Aruco na imagem utilizando a função `drawAruco`.
+            for result in matched_pairs:
+                bgr = self.drawAruco(bgr, result)
 
         
         # 5. Passe novamente por creepers e adicione cores sem correspondência caso não exista um marcador Aruco visível.
