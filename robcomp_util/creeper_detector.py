@@ -70,7 +70,7 @@ class CreeperDetector(Aruco3d):
         """
         matched_pairs = []
         for cabeca in results:
-            if not cabeca["id"] > 100:
+            if cabeca["id"] < 100:
                 if len(creepers) > 0:
                     # 1. Use a função min para ordenar os corpinhos (creepers) por distância com base na função self.distance.
                         #   Dica: Utilize a função lambda para acessar a chave 'centro' do dicionário `results`.
