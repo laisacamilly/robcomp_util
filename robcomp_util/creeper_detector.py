@@ -120,7 +120,7 @@ class CreeperDetector(Aruco3d):
         
         matched_pairs = []
 
-        if len(results) != 0
+        if len(results) != 0:
             # 3. Desenvolva a função `match_aruco` para combinar os marcadores Aruco com os corpos dos creepers.
             bgr, matched_pairs = self.match_aruco(bgr, creepers, results)
 
