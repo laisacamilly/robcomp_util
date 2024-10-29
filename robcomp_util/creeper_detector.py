@@ -70,31 +70,31 @@ class CreeperDetector(Aruco3d):
         """
         matched_pairs = []
         for cabeca in results:
-            
-            # 1. Use a função min para ordenar os corpinhos (creepers) por distância com base na função self.distance.
-                #   Dica: Utilize a função lambda para acessar a chave 'centro' do dicionário `results`.
-            closest = min(creepers, key=lambda creeper: self.distance(cabeca['centro'][0], creeper[0][0]))
+            if not cabeca["id"] > 100:
+                if len(creepers) > 0:
+                    # 1. Use a função min para ordenar os corpinhos (creepers) por distância com base na função self.distance.
+                        #   Dica: Utilize a função lambda para acessar a chave 'centro' do dicionário `results`.
+                    closest = min(creepers, key=lambda creeper: self.distance(cabeca['centro'][0], creeper[0][0]))
 
-            # 2. Remove da lista `creepers` o corpinho mais próximo da cabeca `creeper` para evitar que ele seja combinado novamente.
-                #   Dica: Pode ser feito utilizando list comprehension.
-            creepers = [creeper for creeper in creepers if creeper[0] != closest[0]]
+                    # 2. Remove da lista `creepers` o corpinho mais próximo da cabeca `creeper` para evitar que ele seja combinado novamente.
+                        #   Dica: Pode ser feito utilizando list comprehension.
+                    creepers = [creeper for creeper in creepers if creeper[0] != closest[0]]
 
-            # 3. Adiciona na variável o centro do creeper mais próximo na chave "body_center" do dicionário `cabeca`.
-            cabeca['body_center'] = closest[0]
-            # 4. Adiciona a cor do creeper mais próximo na chave "color" do dicionário `cabeca`.
-            cabeca['color'] = closest[1]
-            
-            # 5. Desenha uma linha entre o centro do creeper e o centro do marcador Aruco.
-            cv2.line(bgr, tuple(cabeca['centro']), (cabeca['body_center']), (0, 0, 255), 2)
-            
-            # 6. Adiciona o par combinado na lista `matched_pairs`.
-            matched_pairs.append(cabeca)
+                    # 3. Adiciona na variável o centro do creeper mais próximo na chave "body_center" do dicionário `cabeca`.
+                    cabeca['body_center'] = closest[0]
+                    # 4. Adiciona a cor do creeper mais próximo na chave "color" do dicionário `cabeca`.
+                    cabeca['color'] = closest[1]
+                    
+                    # 5. Desenha uma linha entre o centro do creeper e o centro do marcador Aruco.
+                    cv2.line(bgr, tuple(cabeca['centro']), (cabeca['body_center']), (0, 0, 255), 2)
+                    
+                    # 6. Adiciona o par combinado na lista `matched_pairs`.
+                    matched_pairs.append(cabeca)
 
-            if len(results) == 0:
-                break
+                    if len(results) == 0:
+                        break
         
         return bgr, matched_pairs
-
     def run(self, bgr):
         """
         Executa a detecção de Aruco e correspondência com creepers.
