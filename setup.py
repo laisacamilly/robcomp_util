@@ -29,6 +29,7 @@ setup(
             'creeper_pub = robcomp_util.creeper_pub:main',
             'action_segue_linha = robcomp_util.action_segue_linha:main',
             'client_segue_linha = robcomp_util.client_segue_linha:main',
+            'goto = robcomp_util.goto:main',
         ],
     },
 )
