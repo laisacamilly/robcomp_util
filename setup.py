@@ -30,6 +30,8 @@ setup(
             'action_segue_linha = robcomp_util.action_segue_linha:main',
             'client_segue_linha = robcomp_util.client_segue_linha:main',
             'goto = robcomp_util.goto:main',
+            'action_goto = robcomp_util.action_goto:main',
+            'client_goto = robcomp_util.client_goto:main',
         ],
     },
 )

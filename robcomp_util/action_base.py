@@ -39,6 +39,7 @@ class BaseActionServer(Node):
         """
         self._goal_handle = goal_handle
         goal_handle.execute()
+        self.get_logger().info('Objetivo aceito')
 
     def cancel_callback(self, goal_handle):
         """
