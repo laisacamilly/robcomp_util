@@ -47,6 +47,7 @@ class GoToActionServer(BaseActionServer, Odom):
         """
         self.get_logger().info('Iniciando movimento para o ponto')
         self.point = goal_handle.request.goal
+        self.robot_state = 'center'
 
         while rclpy.ok():  # Enquanto o ROS2 estiver rodando
             rclpy.spin_once(self)
@@ -57,9 +58,6 @@ class GoToActionServer(BaseActionServer, Odom):
         goal_handle.succeed()
         self._goal_handle = None
         self.get_logger().info('Movimento para o ponto concluído')
-
-        # restabelece a main()
-        
 
         return self._result_msg
 
@@ -126,7 +124,8 @@ def main(args=None):
     """
     rclpy.init(args=args)
     action_server = GoToActionServer()
-    rclpy.spin(action_server)
+    while rclpy.ok():
+        rclpy.spin_once(action_server)
     action_server.destroy_node()
     rclpy.shutdown()
 

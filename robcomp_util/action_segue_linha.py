@@ -111,11 +111,12 @@ class SeguidorLinhaAction(BaseActionServer):
 
 def main(args=None):
     rclpy.init(args=args)
-    ros_node = SeguidorLinhaAction()
+    action_server = SeguidorLinhaAction()
 
-    rclpy.spin(ros_node)
+    while rclpy.ok():
+        rclpy.spin_once(action_server)
 
-    ros_node.destroy_node()
+    action_server.destroy_node()
     rclpy.shutdown()
 
 if __name__ == '__main__':
