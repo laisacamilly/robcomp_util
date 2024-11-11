@@ -86,6 +86,7 @@ class AMCL(): # Mude o nome da classe
 
                     self.x = x_map + delta_x
                     self.y = y_map + delta_y
+                    self.yaw = yaw_map + self.odom_yaw
                     self.get_logger().info(f'Current pose: ({self.x:.2f}, {self.y:.2f})')
 
                     self.odom_ready = True
