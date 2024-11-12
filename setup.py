@@ -32,6 +32,7 @@ setup(
             'goto = robcomp_util.goto:main',
             'action_goto = robcomp_util.action_goto:main',
             'client_goto = robcomp_util.client_goto:main',
+            'super_client = robcomp_util.super_client:main',
         ],
     },
 )
