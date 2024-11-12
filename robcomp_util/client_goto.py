@@ -1,21 +1,23 @@
 from geometry_msgs.msg import Point
-from robcomp_interfaces.action import GoToPoint  # Importe a ação
+from robcomp_interfaces.action import GoToPoint, SimpleStart
 import rclpy
 from geometry_msgs.msg import Twist
+from rclpy.node import Node
 from robcomp_util.client_base import BaseActionClientNode
 
-class GoToActionClient(BaseActionClientNode):
+class GoToActionClient(Node):
     def __init__(self):
         """
         Inicializa o cliente de ação específico de 'GoToPoint'.
         """
-        super().__init__('goto_action_client', GoToPoint, 'goto_point')
+        super().__init__('super_client')
+        self.goto_action_client = BaseActionClientNode('goto_action_client', GoToPoint, 'goto_point')
 
         # Estado inicial da máquina de estados
         self.robot_state = 'goto'
         self.state_machine = {
             'goto': self.goto,
-            'waiting_for_result': self.waiting_for_result,
+            'waiting_for_goto': self.waiting_for_goto,
             'stop': self.stop
         }
 
@@ -28,15 +30,16 @@ class GoToActionClient(BaseActionClientNode):
         """
         goal_msg = GoToPoint.Goal()
         goal_msg.goal = Point(x=-3.0, y=0.0, z=0.0)
-        self.send_goal(goal_msg)
-        self.robot_state = 'waiting_for_result'
+        self.goto_action_client.send_goal(goal_msg)
+        self.robot_state = 'waiting_for_goto'
 
-    def waiting_for_result(self):
+    def waiting_for_goto(self):
         """
         Verifica se o objetivo foi concluído e muda para o estado 'stop' se terminado.
         """
-        print(self._goal_done)
-        if self._goal_done:
+        print(self.goto_action_client._goal_done)
+        rclpy.spin_once(self.goto_action_client, timeout_sec=0.1)
+        if self.goto_action_client._goal_done:
             self.robot_state = 'stop'
 
     def stop(self):
@@ -62,7 +65,8 @@ def main(args=None):
     rclpy.init(args=args)
     ros_node = GoToActionClient()
 
-    rclpy.spin(ros_node)
+    while rclpy.ok():
+        rclpy.spin_once(ros_node)
 
     ros_node.destroy_node()
     rclpy.shutdown()
