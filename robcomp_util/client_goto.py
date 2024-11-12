@@ -18,6 +18,7 @@ class GoToActionClient(Node):
         self.state_machine = {
             'goto': self.goto,
             'waiting_for_goto': self.waiting_for_goto,
+            'waiting_for_segue_linha': self.waiting_for_segue_linha,
             'stop': self.stop
         }
 
