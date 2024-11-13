@@ -27,7 +27,7 @@ class GoToActionServer(BaseActionServer, Odom):
         self.threshold = np.pi / 180
         self.kp_linear = 0.8
         self.kp_angular = 0.5
-        self.max_vel = 0.5
+        self.max_vel = 0.3
 
         # Define o estado inicial da máquina de estados
         self.robot_state = 'center'
