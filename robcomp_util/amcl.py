@@ -1,5 +1,4 @@
 import math
-from rclpy.qos import ReliabilityPolicy, QoSProfile
 from rclpy.qos import QoSProfile, ReliabilityPolicy, DurabilityPolicy, HistoryPolicy
 from nav_msgs.msg import Odometry
 from tf2_msgs.msg import TFMessage
@@ -61,10 +60,11 @@ class AMCL(): # Mude o nome da classe
             return roll, pitch, yaw
 
     def odom_callback(self, msg):
+        print("\n\n\nOdom callback")
+        self.odom = True
         self.odom_x = msg.pose.pose.position.x
         self.odom_y = msg.pose.pose.position.y
         orientation_q = msg.pose.pose.orientation
-        # Get the yaw (rotation around z-axis) from the quaternion
         _, _, self.odom_yaw = self.euler_from_quaternion([orientation_q.x, orientation_q.y, orientation_q.z, orientation_q.w])
 
     def tf_callback(self, msg):
@@ -86,11 +86,10 @@ class AMCL(): # Mude o nome da classe
 
                     self.x = x_map + delta_x
                     self.y = y_map + delta_y
-                    # self.yaw = np.arctan2(
-                    #     math.sin(yaw_map + self.odom_yaw),
-                    #     math.cos(yaw_map + self.odom_yaw)
-                    # )
-                    self.yaw = yaw_map
+
+                    yaw = yaw_map + self.odom_yaw
+                    # Normalize yaw to be within -π and π
+                    self.yaw = np.arctan2(math.sin(yaw), math.cos(yaw))
 
                     self.get_logger().info(f'Current pose: ({self.x:.2f}, {self.y:.2f})')
 

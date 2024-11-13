@@ -64,6 +64,4 @@ class Odom(): # Mude o nome da classe
         
         self.roll, self.pitch, self.yaw = self.euler_from_quaternion(quaternion)
 
-        self.yaw_2pi = (self.yaw + 2 * np.pi) % (2 * np.pi)
-
         self.odom = True
