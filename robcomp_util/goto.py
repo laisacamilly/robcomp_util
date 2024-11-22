@@ -5,13 +5,13 @@ from geometry_msgs.msg import Twist, Point
 import numpy as np
 import time
 from robcomp_util.odom import Odom
-from robcomp_util.amcl import AMCL
+# from robcomp_util.amcl import AMCL
 
-class GoTo(Node, Odom, AMCL): # Mude o nome da classe
+class GoTo(Node, Odom): # Mude o nome da classe
     def __init__(self, point: Point = Point()):
         Node.__init__(self, 'quadrado_node') # Mude o nome do nó
-        # Odom.__init__(self) # Mude o nome do nó
-        AMCL.__init__(self)
+        Odom.__init__(self) # Mude o nome do nó
+        # AMCL.__init__(self)
 
         # Inicialização de variáveis
         self.twist = Twist()
