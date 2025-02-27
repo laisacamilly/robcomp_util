@@ -2,39 +2,27 @@ import rclpy
 from rclpy.node import Node
 from nav_msgs.msg import Odometry
 from rclpy.qos import ReliabilityPolicy, QoSProfile
+from sensor_msgs.msg import LaserScan
+import numpy as np
 
-class SecondNode(Node):
+class Laser():
 
     def __init__(self):
-        super().__init__('second_node')
-        self.timer = self.create_timer(0.25, self.control)
+        self.opening = 5
+        
+        self.laser_sub = self.create_subscription(
+            LaserScan,
+            '/scan',
+            self.laser_callback,
+            QoSProfile(depth=10, reliability=ReliabilityPolicy.BEST_EFFORT))
 
-        self.x = 0
-        self.y = 0
+    def laser_callback(self, msg: Odometry):
+        self.laser_msg = np.array(msg.ranges).round(decimals=2)
+        self.laser_msg[self.laser_msg == 0] = np.inf
+        self.laser_msg = list(self.laser_msg)
 
-        self.odom_sub = self.create_subscription(
-            Odometry,
-            '/odom',
-            self.odom_callback,
-            QoSProfile(depth=10, reliability=ReliabilityPolicy.RELIABLE))
+        self.left = self.laser_msg[90-self.opening:90+self.opening]
+        self.right = self.laser_msg[270-self.opening:270+self.opening]
+        self.back = self.laser_msg[180-self.opening:180+self.opening]
+        self.front = self.laser_msg[-self.opening:] + self.laser_msg[:self.opening]
 
-    def odom_callback(self, data: Odometry):
-        self.x = data.pose.pose.position.x
-        self.y = data.pose.pose.position.y
-
-    def control(self):
-        print(f'Posição x: {self.x}')
-        print(f'Posição y: {self.y}\n')
-
-
-def main(args=None):
-    rclpy.init(args=args)
-    second_node = SecondNode()
-
-    rclpy.spin(second_node)
-
-    second_node.destroy_node()
-    rclpy.shutdown()
-
-if __name__ == '__main__':
-    main()
