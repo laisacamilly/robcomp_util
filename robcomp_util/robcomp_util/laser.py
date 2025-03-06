@@ -15,6 +15,8 @@ class Laser():
             '/scan',
             self.laser_callback,
             QoSProfile(depth=10, reliability=ReliabilityPolicy.BEST_EFFORT))
+      
+        rclpy.spin_once(self) # Roda pelo menos uma vez para pegar os valores de x, y e front
 
     def laser_callback(self, msg: Odometry):
         self.laser_msg = np.array(msg.ranges).round(decimals=2)

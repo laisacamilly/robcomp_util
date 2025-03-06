@@ -15,6 +15,8 @@ class Odom():
             self.odom_callback,
             QoSProfile(depth=10, reliability=ReliabilityPolicy.RELIABLE))
 
+        rclpy.spin_once(self) # Roda pelo menos uma vez para pegar os valores de x, y e front
+
     def odom_callback(self, data: Odometry):
         self.x = data.pose.pose.position.x
         self.y = data.pose.pose.position.y
