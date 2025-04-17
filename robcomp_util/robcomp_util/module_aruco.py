@@ -27,7 +27,6 @@ class Aruco3d():
             for i in range(len(ids)):
                 results.append({
                     'id': ids[i],
-                    'distancia': np.linalg.norm(tvec),
                     'corners': cornersList[i],
                     'centro': np.mean(cornersList[i], axis=1).astype("int").flatten()
                 })
