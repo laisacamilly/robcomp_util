@@ -6,6 +6,7 @@ from rclpy.qos import ReliabilityPolicy, QoSProfile
 from std_msgs.msg import String
 import cv2
 from robcomp_util.module_aruco import Aruco3d
+from robcomp_interfaces.msg import DetectionArray, Detection
 
 class ArucoDetector(Node): # Mude o nome da classe
 
@@ -29,7 +30,7 @@ class ArucoDetector(Node): # Mude o nome da classe
             QoSProfile(depth=10, reliability=ReliabilityPolicy.BEST_EFFORT))
 
         # Publishers
-        ## Coloque aqui os publishers
+        self.detections_pub = self.create_publisher(DetectionArray, 'aruco_detection', 10)
         self.Arucos = Aruco3d()
 
     def flag_callback(self, msg):
@@ -41,11 +42,22 @@ class ArucoDetector(Node): # Mude o nome da classe
 
     def image_callback(self, qualquer_coisa_aqui):
         if self.running:
-            cv_image = self.bridge.compressed_imgmsg_to_cv2(msg, "bgr8") # if CompressedImage
-            cv_image, results = Arucos.detectaAruco(cv_image)
+            cv_image = self.bridge.compressed_imgmsg_to_cv2(qualquer_coisa_aqui, "bgr8") # if CompressedImage
+            cv_image, results = self.Arucos.detectaAruco(cv_image)
+
+            dections = DetectionArray()
             for result in results:
-                cv_image = Arucos.drawAruco(cv_image, result)
-                print(result)
+                cv_image = self.Arucos.drawAruco(cv_image, result)
+
+                detection = Detection()
+                detection.classe = str(result['id'][0])
+                detection.cx = float(result['centro'][0])
+                detection.cy = float(result['centro'][1])
+
+                dections.deteccoes.append(detection)
+            
+            self.detections_pub.publish(dections)
+
             cv2.imshow('Image', cv_image)
             cv2.waitKey(1)
             
