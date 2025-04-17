@@ -9,8 +9,8 @@ class Aruco3d():
         calibra_path  = os.path.dirname(os.path.abspath(__file__))
 
         if camera_matrix is None:
-            self.camera_matrix = np.loadtxt(calibra_path+'/config/cameraMatrix_realsense.txt', delimiter=',')
-            self.camera_distortion = np.loadtxt(calibra_path+'/config/cameraDistortion_realsense.txt', delimiter=',')
+            self.camera_matrix = np.loadtxt('/home/borg/colcon_ws/src/robcomp_util/robcomp_util/robcomp_util/config/cameraMatrix_realsense.txt', delimiter=',')
+            self.camera_distortion = np.loadtxt('/home/borg/colcon_ws/src/robcomp_util/robcomp_util/robcomp_util/config/cameraDistortion_realsense.txt', delimiter=',')
         else:
             self.camera_matrix = np.loadtxt(camera_matrix, delimiter=',')
             self.camera_distortion = np.loadtxt(camera_distortion, delimiter=',')
@@ -47,13 +47,18 @@ class Aruco3d():
 
 def main():
     Arucos = Aruco3d()
-    bgr = cv2.imread("img/aruco.png")
-    bgr, results = Arucos.detectaAruco(bgr)
-    for result in results:
-        bgr = Arucos.drawAruco(bgr, result)
-    print(results[0])
-    cv2.imshow("Aruco", bgr)
-    cv2.waitKey(0)
+    webcam = cv2.VideoCapture(0)
+    cv2.namedWindow("aruco")
+    while(True):
+        val, bgr = webcam.read()
+        if val:
+            bgr, results = Arucos.detectaAruco(bgr)
+            for result in results:
+                bgr = Arucos.drawAruco(bgr, result)
+            print(results[0])
+            cv2.imshow("aruco", image)
+        if cv2.waitKey(1) == 27: # Aguarda 1 ms pela tecla 'ESC'
+            break
 
 if __name__ == "__main__":
     main()
