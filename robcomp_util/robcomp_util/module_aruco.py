@@ -36,7 +36,6 @@ class Aruco3d():
     def drawAruco(self, bgr, result):
         cv2.line(bgr, (bgr.shape[1]//2, bgr.shape[0]//2), ((bgr.shape[1]//2 + 50), (bgr.shape[0]//2)), (0,0,255), 5)
         cv2.line(bgr, (bgr.shape[1]//2, bgr.shape[0]//2), (bgr.shape[1]//2, (bgr.shape[0]//2 + 50)), (0,255,0), 5)
-        cv2.drawFrameAxes(bgr, self.camera_matrix, self.camera_distortion, result['rvec'], result['tvec'] ,0.03)
         aruco.drawDetectedMarkers(bgr, np.array([result['corners']]), np.array([result['id']]))
         return bgr
 
@@ -55,7 +54,7 @@ def main():
             for result in results:
                 bgr = Arucos.drawAruco(bgr, result)
                 print(result)
-            cv2.imshow("aruco", image)
+            cv2.imshow("aruco", bgr)
         if cv2.waitKey(1) == 27: # Aguarda 1 ms pela tecla 'ESC'
             break
 
