@@ -55,7 +55,7 @@ def main():
             bgr, results = Arucos.detectaAruco(bgr)
             for result in results:
                 bgr = Arucos.drawAruco(bgr, result)
-            print(results[0])
+                print(result)
             cv2.imshow("aruco", image)
         if cv2.waitKey(1) == 27: # Aguarda 1 ms pela tecla 'ESC'
             break
