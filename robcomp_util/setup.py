@@ -23,6 +23,7 @@ setup(
             'test_odom_laser = robcomp_util.test_odom_laser:main',
             'mobilenet_detector = robcomp_util.mobilenet_detector:main',
             'aruco_detector = robcomp_util.aruco_detector:main',
+            'goto = robcomp_util.goto:main',
 
         ],
     },
