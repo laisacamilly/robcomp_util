@@ -2,11 +2,12 @@ import rclpy
 import numpy as np
 from rclpy.node import Node
 from rclpy.qos import ReliabilityPolicy, QoSProfile
-from geometry_msgs.msg import Twist
+from geometry_msgs.msg import Twist, Point
 from robcomp_util.odom import Odom
 from robcomp_util.laser import Laser
 from robcomp_util.andar import Andar
 from robcomp_util.girar import Girar
+from robcomp_util.goto import GoTo
 # Adicione aqui os imports necessários
 
 class Quadrado(Node, Odom, Laser): # Mude o nome da classe
@@ -15,45 +16,66 @@ class Quadrado(Node, Odom, Laser): # Mude o nome da classe
         super().__init__('quadrado_node') # Mude o nome do nó
         Odom.__init__(self)
         Laser.__init__(self)
-        self.timer = self.create_timer(0.01, self.control)
+        self.timer = self.create_timer(0.1, self.control)
 
         self.andar_node = Andar()
         self.girar_node = Girar()
+        self.gote_node = GoTo()
 
-        self.robot_state = 'andar'
+        self.robot_state = 'goto'
         self.state_machine = {
             'andar': self.andar,
-            'girar': self.girar
+            'girar': self.girar,
+            'goto': self.goto
         }
 
         # Inicialização de variáveis
         self.twist = Twist()
-        
-        self.girar_node.reset()
+        self.stop_andar = True
+        self.i = 0.0
         
         # Publishers
         self.cmd_vel_pub = self.create_publisher(Twist, 'cmd_vel', 10)
     
 
     def andar(self):
+        print("\nIniciando movimento de andar...")
+        rclpy.spin_once(self.andar_node)
         self.andar_node.reset()
-        print("Iniciando movimento de andar...")
 
         while not self.andar_node.robot_state == 'stop':
             rclpy.spin_once(self.andar_node)
         
         # Após andar, mudar o estado para 'girar'
-        self.robot_state = 'girar'
+        if not self.stop_andar:
+            self.robot_state = 'girar'
+        else:
+            self.robot_state = 'goto'
 
     def girar(self):
+        print("\nIniciando movimento de girar...")
+        rclpy.spin_once(self.girar_node)
         self.girar_node.reset()
-        print("Iniciando movimento de girar...")
 
         while not self.girar_node.robot_state == 'stop':
             rclpy.spin_once(self.girar_node)
 
         # Após girar, mudar o estado para 'andar'
+        self.stop_andar = True
         self.robot_state = 'andar'
+    
+    def goto(self):
+        # rclpy.spin_once(self.gote_node)
+        self.gote_node.reset(Point(x=self.i,y=self.i))  # Defina o ponto para onde o robô deve ir)
+        print("\nIniciando movimento de ir para o ponto...")
+
+        while not self.gote_node.robot_state == 'stop':
+            rclpy.spin_once(self.gote_node)
+
+        # Após ir para o ponto, mudar o estado para 'andar'
+        self.robot_state = 'andar'
+        self.stop_andar = False
+        self.i += 1.0
 
     def control(self):
         print(f'Estado Atual: {self.robot_state}')

@@ -15,14 +15,13 @@ class Girar(Node, Odom, Laser): # Mude o nome da classe
         Laser.__init__(self)
         self.timer = self.create_timer(0.25, self.control)
 
-        self.robot_state = 'girar'
+        self.robot_state = 'stop'
         self.state_machine = {
             'girar': self.girar,
             'stop': self.stop
         }
 
         # Inicialização de variáveis
-        self.reset()
         self.giro = 0.2
         
         # Publishers
@@ -31,6 +30,7 @@ class Girar(Node, Odom, Laser): # Mude o nome da classe
     def reset(self):
         self.twist = Twist()
         self.goal_yaw = self.yaw + np.pi / 2
+        self.goal_yaw = np.arctan2(np.sin(self.goal_yaw), np.cos(self.goal_yaw)) 
         self.robot_state = 'girar'
     
     def girar(self):
@@ -38,7 +38,7 @@ class Girar(Node, Odom, Laser): # Mude o nome da classe
         self.erro = self.goal_yaw - self.yaw 
         self.erro = np.arctan2(np.sin(self.erro), np.cos(self.erro)) 
 
-        print(f'Erro: {np.degrees(self.erro)}')
+        print(f'Erro: {self.erro}')
 
         if self.erro > 0:
             self.twist.angular.z = self.giro
@@ -50,7 +50,7 @@ class Girar(Node, Odom, Laser): # Mude o nome da classe
     
     def stop(self):
         self.twist = Twist()
-        print("Parando o robô.")
+        print("Girar: Parando o robô.")
 
     def control(self):
         print(f'Estado Atual: {self.robot_state}')
@@ -60,6 +60,10 @@ class Girar(Node, Odom, Laser): # Mude o nome da classe
 def main(args=None):
     rclpy.init(args=args)
     ros_node = Girar()
+
+    rclpy.spin_once(ros_node)
+    # Reset the node to initialize the goal yaw
+    ros_node.reset()
 
     rclpy.spin(ros_node)
 
