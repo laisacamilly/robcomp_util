@@ -9,9 +9,9 @@ from robcomp_util.odom import Odom
 
 class GoTo(Node, Odom): # Mude o nome da classe
     def __init__(self, point: Point = Point()):
-        Node.__init__(self, 'quadrado_node') # Mude o nome do nó
+        Node.__init__(self, 'goto_node') # Mude o nome do nó
         Odom.__init__(self) # Mude o nome do nó
-        # AMCL.__init__(self)
+        self.timer = None
 
         # Inicialização de variáveis
         self.twist = Twist()
@@ -27,19 +27,19 @@ class GoTo(Node, Odom): # Mude o nome da classe
             'stop': self.stop
         }
 
-        self.reset(point)
-        self.timer = self.create_timer(0.25, self.control)
-
         # Publishers
         self.cmd_vel_pub = self.create_publisher(Twist, 'cmd_vel', 10)
 
     def reset(self, point):
         self.point = point
         self.twist = Twist()
+        self.done = False
         self.robot_state = 'center'
         self.distance = 0.0
         self.erro = 0.0
         self.goal_yaw = 0.0
+        if self.timer is None:
+            self.timer = self.create_timer(0.25, self.control)
 
     def get_angular_error(self):
         x = self.point.x - self.x
@@ -71,6 +71,10 @@ class GoTo(Node, Odom): # Mude o nome da classe
     
     def stop(self):
         self.twist = Twist()
+        print("GOTO: Parando o robô.")
+        self.timer.cancel()
+        self.timer = None
+        self.done = True
 
     def control(self):
         self.twist = Twist()
@@ -83,9 +87,14 @@ class GoTo(Node, Odom): # Mude o nome da classe
 def main(args=None):
     rclpy.init(args=args)
     ros_node = GoTo(Point( x = -3., y = 0., z = 0.))
+    rclpy.spin_once(ros_node)
+    
+    # Reset the node to initialize the goal yaw
+    ros_node.reset(Point(x=0.0, y=0.0, z=0.0))  # Defina o ponto para onde o robô deve ir
 
-    while rclpy.ok():
+    while not ros_node.robot_state == 'stop':
         rclpy.spin_once(ros_node)
+
 
     ros_node.destroy_node()
     rclpy.shutdown()

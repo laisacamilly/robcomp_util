@@ -20,13 +20,14 @@ class Andar(Node, Odom, Laser): # Mude o nome da classe
         }
 
         # Inicialização de variáveis
-
         self.velocidade = 0.2
+
         # Publishers
         self.cmd_vel_pub = self.create_publisher(Twist, 'cmd_vel', 10)
     
     def reset(self):
         self.twist = Twist()
+        self.done = False
         self.tempo_inicial = self.get_clock().now().to_msg()
         self.tempo_inicial = float(self.tempo_inicial.sec)
         self.robot_state = 'andar'
@@ -49,6 +50,7 @@ class Andar(Node, Odom, Laser): # Mude o nome da classe
         print("Andar: Parando o robô.")
         self.timer.cancel()
         self.timer = None
+        self.done = True
 
     def control(self):
         print(f'Estado Atual: {self.robot_state}')

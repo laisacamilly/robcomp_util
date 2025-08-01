@@ -32,6 +32,7 @@ class Girar(Node, Odom, Laser): # Mude o nome da classe
     
     def reset(self, delta=np.pi/2):
         self.twist = Twist()
+        self.done = False
         self.goal_yaw = self._wrap(self.yaw + delta)
         self.robot_state = 'girar'
         if self.timer is None:
@@ -56,6 +57,7 @@ class Girar(Node, Odom, Laser): # Mude o nome da classe
         print("Girar: Parando o robô.")
         self.timer.cancel()
         self.timer = None
+        self.done = True
 
     def control(self):
         print(f'Estado Atual: {self.robot_state}')

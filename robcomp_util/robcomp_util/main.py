@@ -20,7 +20,7 @@ class Quadrado(Node, Odom, Laser): # Mude o nome da classe
 
         self.andar_node = Andar()
         self.girar_node = Girar()
-        self.gote_node = GoTo()
+        self.goto_node = GoTo()
 
         self.robot_state = 'goto'
         self.state_machine = {
@@ -43,7 +43,7 @@ class Quadrado(Node, Odom, Laser): # Mude o nome da classe
         rclpy.spin_once(self.andar_node)
         self.andar_node.reset()
 
-        while not self.andar_node.robot_state == 'stop':
+        while not self.andar_node.done:
             rclpy.spin_once(self.andar_node)
         
         # Após andar, mudar o estado para 'girar'
@@ -57,7 +57,7 @@ class Quadrado(Node, Odom, Laser): # Mude o nome da classe
         rclpy.spin_once(self.girar_node)
         self.girar_node.reset()
 
-        while not self.girar_node.robot_state == 'stop':
+        while not self.girar_node.done:
             rclpy.spin_once(self.girar_node)
 
         # Após girar, mudar o estado para 'andar'
@@ -65,12 +65,12 @@ class Quadrado(Node, Odom, Laser): # Mude o nome da classe
         self.robot_state = 'andar'
     
     def goto(self):
-        # rclpy.spin_once(self.gote_node)
-        self.gote_node.reset(Point(x=self.i,y=self.i))  # Defina o ponto para onde o robô deve ir)
+        rclpy.spin_once(self.goto_node)
+        self.goto_node.reset(Point(x=self.i,y=self.i))  # Defina o ponto para onde o robô deve ir)
         print("\nIniciando movimento de ir para o ponto...")
 
-        while not self.gote_node.robot_state == 'stop':
-            rclpy.spin_once(self.gote_node)
+        while not self.goto_node.done:
+            rclpy.spin_once(self.goto_node)
 
         # Após ir para o ponto, mudar o estado para 'andar'
         self.robot_state = 'andar'
