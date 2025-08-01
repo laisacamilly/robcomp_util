@@ -86,7 +86,8 @@ def main(args=None):
     rclpy.init(args=args)
     ros_node = Quadrado()
 
-    rclpy.spin(ros_node)
+    while not ros_node.robot_state == 'stop':
+        rclpy.spin_once(ros_node)
 
     ros_node.destroy_node()
     rclpy.shutdown()

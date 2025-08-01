@@ -11,7 +11,7 @@ class Andar(Node, Odom, Laser): # Mude o nome da classe
         super().__init__('andar_node') # Mude o nome do nó
         Odom.__init__(self)
         Laser.__init__(self)
-        self.timer = self.create_timer(0.25, self.control)
+        self.timer = None
 
         self.robot_state = 'stop'
         self.state_machine = {
@@ -30,6 +30,8 @@ class Andar(Node, Odom, Laser): # Mude o nome da classe
         self.tempo_inicial = self.get_clock().now().to_msg()
         self.tempo_inicial = float(self.tempo_inicial.sec)
         self.robot_state = 'andar'
+        if self.timer is None:
+            self.timer = self.create_timer(0.25, self.control)
 
     def andar(self):
         self.twist.linear.x = self.velocidade
@@ -45,6 +47,8 @@ class Andar(Node, Odom, Laser): # Mude o nome da classe
     def stop(self):
         self.twist = Twist()
         print("Andar: Parando o robô.")
+        self.timer.cancel()
+        self.timer = None
 
     def control(self):
         print(f'Estado Atual: {self.robot_state}')
@@ -59,7 +63,8 @@ def main(args=None):
     # Reset the node to initialize the goal yaw
     ros_node.reset()
 
-    rclpy.spin(ros_node)
+    while not ros_node.robot_state == 'stop':
+        rclpy.spin_once(ros_node)
 
     ros_node.destroy_node()
     rclpy.shutdown()
