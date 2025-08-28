@@ -20,6 +20,8 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
+            "test_odom = robcomp_util.test_odom:main",
+            "test_laser = robcomp_util.test_laser:main",
         ],
     },
 )
