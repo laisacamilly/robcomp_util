@@ -5,6 +5,7 @@ from nav_msgs.msg import Odometry
 from rclpy.qos import ReliabilityPolicy, QoSProfile
 
 class Odom():
+
     def __init__(self):
         self.x = 0.0
         self.y = 0.0
